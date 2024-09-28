@@ -3,7 +3,7 @@ using System.IO.Pipes;
 
 namespace Lab01 {
 
-    class Rectangle
+    public class Rectangle
     {
         private double sideA, sideB;
 
