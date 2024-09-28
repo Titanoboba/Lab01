@@ -3,6 +3,63 @@ using System.IO.Pipes;
 
 namespace Lab01 {
 
+    public class Point
+    {
+        private double x, y;
+        public Point(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public double getX
+        { 
+            get { return (this.x); } 
+        }
+        public double getY
+        { 
+            get { return (this.y); } 
+        }
+    }
+    public class Figure
+    {
+        private Point[] points;
+        private string? name;
+
+        private double LengthSide(Point A, Point B)
+        {
+            double result = Convert.ToDouble(Math.Sqrt(Convert.ToDouble(Math.Pow(B.getX - A.getX, 2)) + Convert.ToDouble(Math.Pow(B.getY - A.getY, 2))));
+            return (result);
+        }
+
+        public Figure(Point[] _points)
+        {
+            points = _points;
+        }
+
+        public string Name
+        {
+            get { return name!; }
+            set { name = value; }
+        }    
+
+        public double PerimeterCalculator()
+        {
+            double result;
+            if (points.Length == 3)
+            {
+                result = this.LengthSide(points[0], points[1]) + this.LengthSide(points[1], points[2]) + this.LengthSide(points[2], points[0]);
+                return (result);
+            }
+            if (points.Length == 4)
+            {
+                result = this.LengthSide(points[0], points[1]) + this.LengthSide(points[1], points[2]) + this.LengthSide(points[2], points[3]) + this.LengthSide(points[3], points[0]);
+                return (result);
+            }
+            result = this.LengthSide(points[0], points[1]) + this.LengthSide(points[1], points[2]) + this.LengthSide(points[2], points[3]) + this.LengthSide(points[3], points[4]) + this.LengthSide(points[4], points[0]);
+            return (result);
+        }
+    }
+
     public class Rectangle
     {
         private double sideA, sideB;
@@ -67,12 +124,25 @@ namespace Lab01 {
 
             Console.WriteLine("Input rectangle sides:");
             double[] sides = new double[2];
-            string[]? input = Console.ReadLine().Split();
+            string[]? input = Console.ReadLine()!.Split();
             sides[0] = Convert.ToDouble(input[0]);
             sides[1] = Convert.ToDouble(input[1]);
             Console.WriteLine($"SideA = {sides[0]}, SideB = {sides[1]}");
             Rectangle rect = new Rectangle(sides[0], sides[1]);
             Console.WriteLine($"Area = {rect.Area}, Perimeter = {rect.Perimeter}");
+            Console.WriteLine("Input figure name, amount of points (ex. \"Square 4\"):");
+            string[] figure_input = Console.ReadLine()!.Split();
+            Point[] points = new Point[Convert.ToInt32(figure_input[1])];
+            for (int i = 0; i <  points.Length; i++)
+            {
+                Console.WriteLine($"Input coordinates of point number {i + 1} (ex. X Y \"6 5\"):");
+                string[] cord = new string[2];
+                cord = Console.ReadLine()!.Split();
+                points[i] = new Point(Convert.ToDouble(cord[0]), Convert.ToDouble(cord[1]));
+            }
+            Figure figure = new Figure(points);
+            figure.Name = figure_input[0];
+            Console.WriteLine($"Figure Name = {figure.Name}, Figure Perimeter = {figure.PerimeterCalculator()}");
         }
     }
 }
