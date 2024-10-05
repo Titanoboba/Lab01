@@ -22,18 +22,59 @@ namespace Lab01 {
     }
     public class Figure
     {
-        private Point[] points;
+        private Point[]? points;
+        private Point? p1, p2, p3, p4, p5;
         private string? name;
 
         private double LengthSide(Point A, Point B)
         {
-            double result = Convert.ToDouble(Math.Sqrt(Convert.ToDouble(Math.Pow(B.getX - A.getX, 2)) + Convert.ToDouble(Math.Pow(B.getY - A.getY, 2))));
-            return (result);
+            if (A == null || B == null)
+            {
+                return 0;
+            }
+            return (Convert.ToDouble(Math.Sqrt(Convert.ToDouble(Math.Pow(B.getX - A.getX, 2)) + Convert.ToDouble(Math.Pow(B.getY - A.getY, 2)))));
         }
 
-        public Figure(Point[] _points)
+        public Figure(Point p1, Point p2, Point p3)
         {
-            points = _points;
+            this.p1 = p1;
+            this.p2 = p2;
+            this.p3 = p3;
+        }
+
+        public Figure(Point p1, Point p2, Point p3, Point p4) : this(p1,p2,p3)
+        {
+            this.p4 = p4;
+        }
+
+        public Figure(Point p1, Point p2, Point p3, Point p4, Point p5) : this(p1, p2, p3, p4)
+        {
+            this.p5 = p5;
+        }
+
+        public Figure(Point[] points)
+        {
+            if (points.Length == 3)
+            {
+                this.p1 = points[0];
+                this.p2 = points[1];
+                this.p3 = points[2];
+            }
+            else if (points.Length == 4)
+            {
+                this.p1 = points[0];
+                this.p2 = points[1];
+                this.p3 = points[2];
+                this.p4 = points[3];
+            }
+            else
+            {
+                this.p1 = points[0];
+                this.p2 = points[1];
+                this.p3 = points[2];
+                this.p4 = points[3];
+                this.p5 = points[4];
+            }
         }
 
         public string Name
@@ -44,19 +85,7 @@ namespace Lab01 {
 
         public double PerimeterCalculator()
         {
-            double result;
-            if (points.Length == 3)
-            {
-                result = this.LengthSide(points[0], points[1]) + this.LengthSide(points[1], points[2]) + this.LengthSide(points[2], points[0]);
-                return (result);
-            }
-            if (points.Length == 4)
-            {
-                result = this.LengthSide(points[0], points[1]) + this.LengthSide(points[1], points[2]) + this.LengthSide(points[2], points[3]) + this.LengthSide(points[3], points[0]);
-                return (result);
-            }
-            result = this.LengthSide(points[0], points[1]) + this.LengthSide(points[1], points[2]) + this.LengthSide(points[2], points[3]) + this.LengthSide(points[3], points[4]) + this.LengthSide(points[4], points[0]);
-            return (result);
+            return (this.LengthSide(p1, p2) + this.LengthSide(p2, p3) + this.LengthSide(p3, p4) + this.LengthSide(p4, p5) + this.LengthSide(p5, p1));
         }
     }
 
